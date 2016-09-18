@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+	xsi:schemaLocation="
+         http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+         http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd
+         http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.0.xsd">
+
+	<cm:property-placeholder persistent-id="org.enjekt.panda.whitevault" update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="some" value="value" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<reference id="blackVaultConnector" interface="org.enjekt.panda.commons.api.BlackVaultAPI" />
+	<reference id="whiteVaultDatastore" interface="org.enjekt.panda.commons.api.WhiteVaultDatastore" />
+
+	<bean id="tokenGenerator" class="org.enjekt.panda.whitevault.internal.beans.TokenGenerator" />
+	
+
+	<bean id="panAddHandler" class="org.enjekt.panda.whitevault.internal.beans.PanAddHandler">
+		<property name="blackVaultConnector" ref="blackVaultConnector" />
+		<property name="datastore" ref="whiteVaultDatastore" />
+		<property name="tokenGenerator" ref="tokenGenerator" />
+	</bean>
+
+	<bean id="panRetrieveHandler" class="org.enjekt.panda.whitevault.internal.beans.PanRetrieveHandler">
+		<property name="blackVaultConnector" ref="blackVaultConnector" />
+		<property name="datastore" ref="whiteVaultDatastore" />
+	</bean>
+
+
+	<bean id="whiteVaultRoutes" class="org.enjekt.panda.whitevault.internal.routes.VaultRoutes">
+		<property name="panRetrieveHandler" ref="panRetrieveHandler" />
+		<property name="panAddHandler" ref="panAddHandler" />
+	</bean>
+
+</blueprint>

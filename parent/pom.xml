@@ -1,0 +1,161 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.enjekt.panda</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>parent</name>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.7</java.version>
+		<camel.version>2.17.3</camel.version>
+		<cdi.version>1.2</cdi.version>
+		<panda.commons.version>0.0.1-SNAPSHOT</panda.commons.version>
+		<developmentkit.version>0.0.1-SNAPSHOT</developmentkit.version>
+		<blackvault.version>0.0.1-SNAPSHOT</blackvault.version>
+		<panda.commons.version>0.0.1-SNAPSHOT</panda.commons.version>
+		<pax.cdi.version>1.0.0.RC1</pax.cdi.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.enjekt.panda</groupId>
+				<artifactId>commons</artifactId>
+				<version>${panda.commons.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.enjekt.panda</groupId>
+				<artifactId>developmentkit</artifactId>
+				<version>${developmentkit.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.enjekt.panda</groupId>
+				<artifactId>blackvault</artifactId>
+				<version>${blackvault.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-core</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-cxf</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-blueprint</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+
+
+			<!-- logging -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.7.21</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- testing -->
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-test-cdi</artifactId>
+				<version>${camel.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- CDI API -->
+			<dependency>
+				<groupId>javax.enterprise</groupId>
+				<artifactId>cdi-api</artifactId>
+				<version>${cdi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ops4j.pax.cdi</groupId>
+				<artifactId>pax-cdi-api</artifactId>
+				<version>${pax.cdi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-cdi</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- allows the routes to be run via 'mvn camel:run' -->
+			<plugin>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-maven-plugin</artifactId>
+				<version>2.17.3</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.deltaspike.cdictrl</groupId>
+						<artifactId>deltaspike-cdictrl-weld</artifactId>
+						<version>1.5.4</version>
+					</dependency>
+					<dependency>
+						<groupId>org.jboss.weld.se</groupId>
+						<artifactId>weld-se</artifactId>
+						<version>2.3.3.Final</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!-- to generate the MANIFEST-FILE of the bundle -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>3.0.1</version>
+				<extensions>true</extensions>
+
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Public-Package>!${project.groupId}.${project.artifactId}.internal,${project.groupId}.${project.artifactId}</Public-Package>
+						<Import-Package>*</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

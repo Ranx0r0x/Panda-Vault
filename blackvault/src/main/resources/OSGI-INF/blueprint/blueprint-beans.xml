@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+	xsi:schemaLocation="
+         http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+         http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd
+         http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.0.xsd">
+
+	<cm:property-placeholder persistent-id="org.enjekt.panda.blackvault" update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="some" value="value" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+
+	<reference id="datastore" interface="org.enjekt.panda.commons.api.BlackVaultDatastore" />
+	<bean id="padGenerator" class="org.enjekt.panda.blackvault.internal.beans.PadGenerator" />
+
+	<bean id="tokenAddHandler" class="org.enjekt.panda.blackvault.internal.beans.TokenAddHandler">
+		<property name="datastore" ref="datastore" />
+		<property name="generator" ref="padGenerator" />
+	</bean>
+
+	<bean id="padRetrieveHandler" class="org.enjekt.panda.blackvault.internal.beans.PadRetrieveHandler">
+		<property name="datastore" ref="datastore" />
+	</bean>
+
+	<bean id="blackVaultRoutes" class="org.enjekt.panda.blackvault.internal.routes.VaultRoutes">
+		<property name="tokenAddHandler" ref="tokenAddHandler" />
+		<property name="padRetrieveHandler" ref="padRetrieveHandler" />
+	</bean>
+</blueprint>
