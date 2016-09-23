@@ -8,7 +8,7 @@
              http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
 
-	<cxf:cxfEndpoint id="whiteVaultEndpoint" address="/whitevault/"	serviceClass="org.enjekt.panda.whitevault.server.api.WhiteVaultAPI" />
+	<cxf:cxfEndpoint id="whiteVaultEndpoint" address="/whitevault/"	serviceClass="org.enjekt.panda.commons.api.WhiteVaultAPI" />
 		
 
 	<camelContext xmlns="http://camel.apache.org/schema/blueprint">

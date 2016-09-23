@@ -12,7 +12,9 @@
   	  	<module>../pandacommons</module>
   	  	<module>../whitevault</module>
   	  	<module>../whitevaultserver</module>
+  	  	<module>../karafappliance/profiles/registry</module>
+  	  	<module>../karafappliance/profiles/static</module>
 
-  	
-  </modules>
+  	  	
+	</modules>
 </project>
