@@ -8,6 +8,6 @@
 
   <service ref="blackVaultConnector" interface="org.enjekt.panda.commons.api.BlackVaultAPI" />
   <service ref="whiteVaultDatastore" interface="org.enjekt.panda.commons.api.WhiteVaultDatastore" />
-  <service ref="whiteVaultDatastore" interface="org.enjekt.panda.commons.api.WhiteVaultDatastore" />
+  <service ref="blackVaultDatastore" interface="org.enjekt.panda.commons.api.BlackVaultDatastore" />
 
 </blueprint>
