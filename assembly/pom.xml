@@ -11,7 +11,7 @@
   	  	<module>../features</module>
   	  	<module>../pandacommons</module>
   	  	<module>../whitevault</module>
-  	  	<module>../whitevaultserver</module>
-  	  	<module>../developmentAppliance</module>
+		<module>../developmentAppliance/registry</module>
+  	  	<module>../developmentAppliance/pandavault</module>
 	</modules>
 </project>

@@ -13,7 +13,6 @@
 		<bundle>mvn:org.enjekt.panda/developmentkit/${project.version}</bundle>
 		<bundle>mvn:org.enjekt.panda/whitevault/${project.version}</bundle>
 		<bundle>mvn:org.enjekt.panda/blackvault/${project.version}</bundle>
-		<bundle>mvn:org.enjekt.panda/whitevaultserver/${project.version}</bundle>
 
 	</feature>
 

@@ -20,10 +20,11 @@ package org.enjekt.panda.whitevault.internal.routes;
 import javax.inject.Inject;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.enjekt.panda.commons.api.WhiteVaultAPI;
 import org.enjekt.panda.whitevault.internal.beans.PanAddHandler;
 import org.enjekt.panda.whitevault.internal.beans.PanRetrieveHandler;
 
-
+//TODO CDI isn't working here with blueprint defined CXF...
 /**
  * Configures all our Camel routes, components, endpoints and beans.
  */
@@ -49,12 +50,14 @@ public class VaultRoutes extends RouteBuilder {
 	@Inject
 	private PanAddHandler panAddHandler;
 	
+
 	/* (non-Javadoc)
 	 * @see org.apache.camel.builder.RouteBuilder#configure()
 	 */
 	@Override
     public void configure() {
-        // you can configure the route rule with Java DSL here
+
+		
 
         from(GET_PAN)
         	.bean(panRetrieveHandler);
@@ -101,5 +104,6 @@ public class VaultRoutes extends RouteBuilder {
 	public void setPanAddHandler(PanAddHandler panAddHandler) {
 		this.panAddHandler = panAddHandler;
 	}
+	
 
 }
