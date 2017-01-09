@@ -25,35 +25,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Token {
 
-	/** The family id associated with the PAN which is composed of the
-	 * BIN and the last 4 digits of the PAN. */
-	private String familyId;
-	
 	/** The token is a randomly generated number which preserves the last 4 digits of the
 	 * card for identification purposes.  The token does not pass a luhn check so that
 	 * it can't be mistaken for a real card.. */
 	private String token;
 
-	/**
-	 * Gets the family id.
-	 *
-	 * @return the family id
-	 */
-	public String getFamilyId() {
-		return familyId;
+
+	public Token(){}
+	public Token(String token) {
+		this.token=token;
 	}
-	
-	/**
-	 * Sets the family id.
-	 *
-	 * @param familyId the family id
-	 * @return the token
-	 */
-	public Token setFamilyId(String familyId) {
-		this.familyId = familyId;
-		return this;
-	}
-	
+
 	/**
 	 * Gets the token.
 	 *
@@ -74,12 +56,12 @@ public class Token {
 		return this;
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	public Boolean equals(Token token){
+		return token!=null && this.token!=null && this.token.equals(token.getToken());
+	}
 	@Override
 	public String toString() {
-		return "Token [familyId=" + familyId + ", token=" + token + "]";
+		return "Token [token=" + token + "]";
 	}
 
 }

@@ -31,28 +31,26 @@ import org.enjekt.panda.commons.models.Token;
 /**
  * The Class PadRetrieveHandler.
  */
-public class PadRetrieveHandler{
+public class PadsForFamilyHandler{
 
-	public PadRetrieveHandler(){}
-	
-	public PadRetrieveHandler(BlackVaultDatastore datastore){
-		this.datastore=datastore; 
-	}
-	
 	/** The datastore used to store the token and its related pad. */
 	private BlackVaultDatastore datastore;
+	public PadsForFamilyHandler(){}
 	
+	public PadsForFamilyHandler(BlackVaultDatastore datastore){this.datastore=datastore;}
+
 
 	/**
-	 * Gets the pad for token to be returned to the white vault
+	 * Gets the pads for family ID. The familyID identifies a group of pads
+	 * that are related by their BIN and last 4 digits.
 	 *
-	 * @param token used to identify the pad to be returned.
-	 * @return the pad associated with the token which is returned.
+	 * @param familyId identifying the group of pads to return.
+	 * @return the pads associated with the family ID. The Map contains the tokens
+	 * and associated pads to be returned to the white vault
 	 */
-	public Pad getPadForToken(Token token) {
-		return datastore.getPadForToken(token);
+	public Map<String,Pad> getPadsForFamilyID(FamilyId familyId){
+		return datastore.getPadsForFamilyID(familyId);
 	}
-
 
 	/**
 	 * Gets the datastore.

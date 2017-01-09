@@ -21,35 +21,37 @@ import javax.inject.Inject;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.enjekt.panda.blackvault.internal.beans.PadRetrieveHandler;
+import org.enjekt.panda.blackvault.internal.beans.PadsForFamilyHandler;
 import org.enjekt.panda.blackvault.internal.beans.TokenAddHandler;
 
 /**
  * Configures all our Camel routes, components, endpoints and beans
  */
-public class VaultRoutes extends RouteBuilder {
-
-
+public class BlackVaultRoutes extends RouteBuilder {
 	public static final String GET_PAD = "direct-vm:getPad";
 	public static final String ADD_TOKEN= "direct-vm:addToken";
 	public static final String GET_PAD_LIST= "direct-vm:getPads";
+
 	@Inject
 	TokenAddHandler tokenAddHandler;
 	@Inject
 	PadRetrieveHandler padRetrieveHandler;
+	@Inject
+	PadsForFamilyHandler padsForFamilyHandler;
 	
-	public VaultRoutes(){}
+	public BlackVaultRoutes(){}
 
 	@Override
     public void configure() {
 
         from(GET_PAD)
-        	.bean(padRetrieveHandler,"getPadForToken");
+        	.bean(padRetrieveHandler);
         
         from(ADD_TOKEN)
             .bean(tokenAddHandler);
         
         from(GET_PAD_LIST)
-        	.bean(padRetrieveHandler,"getPadsForFamilyID");
+        	.bean(padsForFamilyHandler);
         
     	
 	}
@@ -68,6 +70,14 @@ public class VaultRoutes extends RouteBuilder {
 
 	public void setPadRetrieveHandler(PadRetrieveHandler padRetrieveHandler) {
 		this.padRetrieveHandler = padRetrieveHandler;
+	}
+
+	public PadsForFamilyHandler getPadsForFamilyHandler() {
+		return padsForFamilyHandler;
+	}
+
+	public void setPadsForFamilyHandler(PadsForFamilyHandler padsForFamilyHandler) {
+		this.padsForFamilyHandler = padsForFamilyHandler;
 	}
 
 }

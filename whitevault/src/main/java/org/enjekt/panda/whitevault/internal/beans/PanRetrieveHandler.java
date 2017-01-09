@@ -24,6 +24,10 @@ import javax.inject.Singleton;
 
 import org.enjekt.panda.commons.api.BlackVaultAPI;
 import org.enjekt.panda.commons.api.WhiteVaultDatastore;
+import org.enjekt.panda.commons.models.Pad;
+import org.enjekt.panda.commons.models.Pan;
+import org.enjekt.panda.commons.models.Panda;
+import org.enjekt.panda.commons.models.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,17 +53,17 @@ public class PanRetrieveHandler {
 	 * @param token the token
 	 * @return the pan
 	 */
-	public String getPan(String token) {
-		String panda = datastore.getPanda(token);
-		String pad = blackVaultConnector.getPadForToken(token);
+	public Pan getPan(Token token) {
+		Panda panda = datastore.getPanda(token);
+		Pad pad = blackVaultConnector.getPadForToken(token);
 		logger.info("Panda/pad in PanRetrieveHandler: " + panda +"," + pad);
 		String pan;
 		if (pad != null && panda != null)
-			pan= new BigInteger(panda).subtract(new BigInteger(pad)).toString();
+			pan= new BigInteger(panda.getPanda()).subtract(new BigInteger(pad.getPad())).toString();
 		else
 			pan= "INVALID";
 		logger.info("Pan after subtraction: "+ pan);
-		return pan;
+		return new Pan(pan);
 	}
 
 

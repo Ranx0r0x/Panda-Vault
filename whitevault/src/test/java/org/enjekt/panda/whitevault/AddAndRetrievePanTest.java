@@ -16,11 +16,13 @@
  */
 package org.enjekt.panda.whitevault;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
 import org.apache.camel.test.cdi.CamelCdiRunner;
+import org.enjekt.panda.commons.models.Pan;
+import org.enjekt.panda.commons.models.Token;
 import org.enjekt.panda.whitevault.internal.beans.PanAddHandler;
 import org.enjekt.panda.whitevault.internal.beans.PanRetrieveHandler;
 import org.junit.Test;
@@ -37,12 +39,17 @@ public class AddAndRetrievePanTest {
 
 	@Test
 	public void testNewTokenAndRetrieveForExistingToken() {
-		String pan = "12345678901234567";
-		String token = panAddHandler.addPan(pan);
-		String retrievedPan = panRetrieveHandler.getPan(token);
-		assertEquals(pan,retrievedPan);
-		String verifyToken = panAddHandler.addPan(pan);
-		assertEquals(token,verifyToken);
+		Pan pan = new Pan("12345678901234567");
+		Token token = panAddHandler.addPan(pan);
+		assertNotNull(token);
+		Pan retrievedPan = panRetrieveHandler.getPan(token);
+		assertNotNull(retrievedPan);
+		assertNotNull(retrievedPan.getPan());
+		assertEquals(pan.getPan(),retrievedPan.getPan());
+		Token verifyToken = panAddHandler.addPan(pan);
+		System.out.println("VERIFY TOKEN: "+ verifyToken.toString());
+		assertNotNull(verifyToken);
+		assertTrue(token.equals(verifyToken));
 	}
 	
 

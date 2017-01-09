@@ -20,6 +20,10 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.Pad;
+import org.enjekt.panda.commons.models.Pan;
+import org.enjekt.panda.commons.models.Panda;
 import org.enjekt.panda.commons.models.Token;
 
 // TODO: Auto-generated Javadoc
@@ -34,15 +38,7 @@ public class Utils {
 	/** The chars. */
 	private static char[] chars ={'1','2','3','4','5','6','7','8','9'};
 	
-	/**
-	 * Generate pad.
-	 *
-	 * @return the big integer
-	 */
-	public static BigInteger generatePad(){
-		 return new BigInteger(generateRandom(16));
-	}
-	
+
 	/**
 	 * Creates the token, the family ID, and the random
 	 * token string.
@@ -50,20 +46,43 @@ public class Utils {
 	 * @param pan the pan
 	 * @return the token
 	 */
+	public static Token createToken(Pan pan) {
+		return createToken(pan.getPan());
+	}
 	public static Token createToken(String pan) {
 		Token token = new Token();
 		String lastFour = Utils.getLastFour(pan);
 		String BIN = Utils.getBIN(pan);
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(Utils.generateRandom(pan.length()-4));
-	
+		buffer.append(BIN);
+		int lengthOfRandom = pan.length()-BIN.length()-4;
+		buffer.append(Utils.generateRandom(lengthOfRandom));
 		buffer.append(lastFour);
-		//System.out.println(buffer.toString());
-		token.setFamilyId(BIN+lastFour);
+
 		token.setToken(buffer.toString());
 		return token;
 	}
-	
+	/**
+	 * Gets the family id for the pan.
+	 *
+	 * @param pan the pan
+	 * @return the family id
+	 */
+	public static FamilyId createFamilyId(Pan pan){
+		 
+		 return createFamilyId(pan.getPan());
+	}
+	/**
+	 * Gets the family id for the pan.
+	 *
+	 * @param pan the pan
+	 * @return the family id
+	 */
+	public static FamilyId createFamilyId(String pan){
+		 
+		 return new FamilyId(getBIN(pan)+ getLastFour(pan));
+	}
+
 	/**
 	 * Generate random number of the given length between 0...9
 	 *
@@ -96,15 +115,6 @@ public class Utils {
 		return pan.substring(pan.length() - 4, pan.length());
 	}
 	
-	/**
-	 * Gets the family id for the pan.
-	 *
-	 * @param pan the pan
-	 * @return the family id
-	 */
-	public static String getFamilyId(String pan){
-		 return getBIN(pan)+ getLastFour(pan);
-	}
 
 
 	/**
@@ -145,4 +155,23 @@ public class Utils {
 		}
 		return (sum % 10) == 0;
 	}
+
+	public static Pad createPad(Pan pan) {
+		return createPad(pan.getPan());
+		
+	}
+	public static Pad createPad(String pan) {
+		return new Pad(Utils.generateRandom(pan.length()));
+		
+	}
+	public static Panda createPanda(Pan pan, Pad pad) {
+		return createPanda(pan.getPan(),pad.getPad());
+	}
+	
+	public static Panda createPanda(String pan, String pad){
+
+		return new Panda(new BigInteger(pan).add(new BigInteger(pad)).toString());
+	}
+	
+
 }

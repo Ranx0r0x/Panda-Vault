@@ -19,6 +19,8 @@ package org.enjekt.panda.whitevault.internal.beans;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.enjekt.panda.commons.models.Pad;
+import org.enjekt.panda.commons.models.Pan;
 import org.enjekt.panda.commons.models.Token;
 import org.enjekt.panda.commons.utils.Utils;
 
@@ -37,17 +39,23 @@ public class TokenGenerator {
 	 * @param pan the pan
 	 * @return the token
 	 */
-	public Token generateToken(String pan) {
+	public Token generateToken(Pan pan) {
 		//System.out.println(pan + " in TokenGenerator");
 		Boolean luhnValid = Boolean.TRUE;
 		Token token;
 		do {
-			token = Utils.createToken(pan);
+			token = Utils.createToken(pan.getPan());
 			luhnValid=Utils.luhnVerify(token);
 		} while(luhnValid);
 		//System.out.println("In generator: "+ token);
 		return token;
 	}
+	
+	public Pad generatePad(Pan pan){
+		return Utils.createPad(pan.getPan());
+	}
+
+
 
 	
 	

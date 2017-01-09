@@ -18,7 +18,10 @@ package org.enjekt.panda.commons.api;
 
 import java.util.Map;
 
+import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.Panda;
 import org.enjekt.panda.commons.models.Token;
+import org.enjekt.panda.commons.models.WhiteVaultDataModel;
 
 /**
  * The Interface WhiteVaultDatastore.
@@ -33,8 +36,7 @@ public interface WhiteVaultDatastore {
 	 * 
 	 * 
 	 */
-	//TODO This should probably be deprecated as I don't think there are any cases for it.
-	public Token getToken(String panda);
+	public Token getToken(Panda panda);
 	
 	/**
 	 * Store panda based on the family ID, token string, and panda.
@@ -42,7 +44,7 @@ public interface WhiteVaultDatastore {
 	 * @param token the token
 	 * @param panda the panda
 	 */
-	public void storePanda(Token token,String panda);
+	public void storePanda(WhiteVaultDataModel whiteVaultDataModel);
 	
 	/**
 	 * Gets the panda associated with a token string.
@@ -50,7 +52,7 @@ public interface WhiteVaultDatastore {
 	 * @param token the token
 	 * @return the panda
 	 */
-	public String getPanda(String token);
+	public Panda getPanda(Token token);
 	
 	/**
 	 * Gets the pandas for family ID is used when adding a new token.
@@ -65,7 +67,8 @@ public interface WhiteVaultDatastore {
 	 * @param familyId the family id
 	 * @return the pandas for family ID
 	 */
-	public Map<String,String> getPandasForFamilyID(String familyId);
+	public Map<String,Panda> getPandasForFamilyID(FamilyId familyId);
+
 
 	
 }

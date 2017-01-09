@@ -26,14 +26,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.Pad;
 import org.enjekt.panda.commons.models.Token;
+import org.enjekt.panda.commons.models.BlackVaultDataModel;
 
 
 /**
  * The Interface BlackVaultAPI.
  */
 public interface BlackVaultAPI {
-	
+
 	/**
 	 * Gets the pad for token in order to restore the PAN from the panda.
 	 *
@@ -45,7 +48,7 @@ public interface BlackVaultAPI {
 	@Path("/blackvault/pad/{token}")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
-	public String getPadForToken(@WebParam String token);
+	public Pad getPadForToken(@WebParam Token token);
 	
 	/**
 	 * Adds the token. When a new token is added the token string and family ID
@@ -53,13 +56,14 @@ public interface BlackVaultAPI {
 	 * that will be generated for them.
 	 *
 	 * @param token the token
+	 * @param pad 
 	 */
 	@WebMethod(operationName = "addToken", action = "")
 	@PUT
 	@Path("/blackvault/token/{token}")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
-	public void addToken(@WebParam Token token);
+	public void addToken(@WebParam BlackVaultDataModel tokeAndPad);
 
 	/**
 	 * Gets the pads for family ID. This may or may not exist in future versions.  The family ID
@@ -74,5 +78,5 @@ public interface BlackVaultAPI {
 	@Path("/blackvault/pads/{familyId}")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
-	public Map<String,String> getPadsForFamilyID(@WebParam String familyId);
+	public Map<String, Pad> getPadsForFamilyID(@WebParam FamilyId familyId);
 }

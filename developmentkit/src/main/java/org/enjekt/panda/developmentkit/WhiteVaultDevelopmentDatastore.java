@@ -14,23 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.enjekt.panda.developmentkit.internal;
+package org.enjekt.panda.developmentkit;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.enjekt.panda.commons.api.WhiteVaultDatastore;
+import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.Panda;
 import org.enjekt.panda.commons.models.Token;
+import org.enjekt.panda.commons.models.WhiteVaultDataModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class WhiteVaultDevelopmentDatastore.
  */
 @Singleton
-public class WhiteVaultDevelopmentDatastore{
+@Named("whiteVaultDatastore")
+public class WhiteVaultDevelopmentDatastore implements WhiteVaultDatastore{
 		
 		/** The logger. */
 		private static Logger logger = LoggerFactory.getLogger(WhiteVaultDevelopmentDatastore.class);
@@ -42,7 +47,7 @@ public class WhiteVaultDevelopmentDatastore{
 		 * a given token.  Since the PAN is not actually stored anywhere it has to be 
 		 * reconstituted by getting the panda from the white vault and the pad from the black
 		 * vault and subtracting them. */
-		private HashMap<String,String> tokenToPanda = new HashMap<String,String>();
+		private HashMap<String,Panda> tokenToPanda = new HashMap<String,Panda>();
 		
 		/** The family Id to pandas. During adding PANs it is important to know that they don't already
 		 * exist.  The only way to do this is to return the pandas associated with a given family Id which
@@ -53,7 +58,7 @@ public class WhiteVaultDevelopmentDatastore{
 		 * 
 		 * However, it is common practice to include the BIN and last 4 as part of any token and we currently
 		 * choose not to expose that information on the tokens.  Only the last 4 are used in the tokens. */
-		private Map<String, HashMap<String, String>> familyToPandas = new HashMap<String,HashMap<String,String>>();
+		private Map<String, HashMap<String, Panda>> familyToPandas = new HashMap<String,HashMap<String,Panda>>();
 		
 		/**
 		 * Gets the token associated with a panda..
@@ -61,9 +66,9 @@ public class WhiteVaultDevelopmentDatastore{
 		 * @param panda the panda
 		 * @return the token
 		 */
-		public Token getToken(String panda) {
+		public Token getToken(Panda panda) {
 			Token token = new Token();
-			token.setToken(pandaToToken.get(panda));
+			token.setToken(pandaToToken.get(panda.getPanda()));
 			return token;
 		}
 
@@ -73,9 +78,8 @@ public class WhiteVaultDevelopmentDatastore{
 		 * @param token the token
 		 * @return the panda
 		 */
-		public String getPanda(String token) {
-			System.out.println("Get panda: "+ tokenToPanda.get(token));
-			return tokenToPanda.get(token);
+		public Panda getPanda(Token token) {
+			return tokenToPanda.get(token.getToken());
 		}
 
 		/**
@@ -85,16 +89,17 @@ public class WhiteVaultDevelopmentDatastore{
 		 * @param token the token
 		 * @param panda the panda
 		 */
-		public void storePanda(Token token, String panda) {
-			logger.info("Store token: "+token.getToken()+","+panda);
-			tokenToPanda.put(token.getToken(), panda);
-			pandaToToken.put(panda,token.getToken());
-			HashMap<String,String> tokensToPandas =familyToPandas.get(token.getFamilyId());
+		public void storePanda(WhiteVaultDataModel wvdm) {
+	
+			logger.info("Store token: "+wvdm.getToken()+","+wvdm.getPanda());
+			tokenToPanda.put(wvdm.getToken().getToken(), wvdm.getPanda());
+			pandaToToken.put(wvdm.getPanda().getPanda(),wvdm.getToken().getToken());
+			HashMap<String,Panda> tokensToPandas =familyToPandas.get(wvdm.getFamilyId().getId());
 			if(tokensToPandas==null){
-				tokensToPandas = new HashMap<String,String>();
-				familyToPandas.put(token.getFamilyId(),tokensToPandas);
+				tokensToPandas = new HashMap<String,Panda>();
+				familyToPandas.put(wvdm.getFamilyId().getId(),tokensToPandas);
 			}
-			tokensToPandas.put(token.getToken(),panda);
+			tokensToPandas.put(wvdm.getToken().getToken(),wvdm.getPanda());
 			
 		}
 
@@ -104,8 +109,10 @@ public class WhiteVaultDevelopmentDatastore{
 		 * @param familyId the family id
 		 * @return the pandas for family ID
 		 */
-		public Map<String,String> getPandasForFamilyID(String familyId) {
-				return familyToPandas.get(familyId);
+
+		@Override
+		public Map<String, Panda> getPandasForFamilyID(FamilyId familyId) {
+			return familyToPandas.get(familyId.getId());
 		}
 		
 	}

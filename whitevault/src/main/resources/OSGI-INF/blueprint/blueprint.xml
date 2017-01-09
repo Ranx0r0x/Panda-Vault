@@ -27,7 +27,7 @@
 	</bean>
 
 
-	<bean id="whiteVaultRoutes" class="org.enjekt.panda.whitevault.internal.routes.VaultRoutes">
+	<bean id="whiteVaultRoutes" class="org.enjekt.panda.whitevault.internal.routes.WhiteVaultRoutes">
 		<property name="panRetrieveHandler" ref="panRetrieveHandler" />
 		<property name="panAddHandler" ref="panAddHandler" />
 	</bean>
@@ -46,11 +46,6 @@
 	</cxf:rsServer> -->
 
 	<cxf:cxfEndpoint id="whiteVaultSoap" address="/whitevault/" serviceClass="org.enjekt.panda.commons.api.WhiteVaultAPI">
-
-		<!-- TODO Add binding to ns -->		
-	<!-- 	<cxf:binding>
-				<soap:soapBinding version="1.2" />
-			</cxf:binding> -->
 	</cxf:cxfEndpoint>
 
 
@@ -59,7 +54,9 @@
 		<route id="whiteVaultSOAP">
 			<!-- route starts from the cxf webservice in POJO mode -->
 			<from uri="cxf:bean:whiteVaultSoap" />
-
+			<transform>
+				<simple>${body[0]}</simple>
+			</transform>
 			<recipientList>
 				<simple>direct-vm:${header.operationName}</simple>
 			</recipientList>

@@ -18,7 +18,10 @@ package org.enjekt.panda.commons.api;
 
 import java.util.Map;
 
+import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.Pad;
 import org.enjekt.panda.commons.models.Token;
+import org.enjekt.panda.commons.models.BlackVaultDataModel;
 
 
 /**
@@ -37,7 +40,7 @@ public interface BlackVaultDatastore {
 	 * @param token the token
 	 * @param pad the pad
 	 */
-	public void storePadForToken(Token token, String pad);
+	public void store(BlackVaultDataModel bvdm);
 	
 	/**
 	 * Gets the pad for token string.  The Black Vault stores the Token by family Id and
@@ -50,7 +53,7 @@ public interface BlackVaultDatastore {
 	 * @param token the token
 	 * @return the pad for token
 	 */
-	public String getPadForToken(String token);
+	public Pad getPadForToken(Token token);
 	
 	/**
 	 * Gets the pads for family ID. This may or may not exist in future releases depending on
@@ -65,5 +68,7 @@ public interface BlackVaultDatastore {
 	 * @param familyId the family id
 	 * @return the pads for family ID
 	 */
-	public Map<String, String> getPadsForFamilyID(String familyId);
+	public Map<String, Pad> getPadsForFamilyID(FamilyId familyId);
+
+	
 }

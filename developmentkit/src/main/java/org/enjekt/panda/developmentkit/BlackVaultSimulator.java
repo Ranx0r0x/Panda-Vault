@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.enjekt.panda.blackvault.internal.beans;
+package org.enjekt.panda.developmentkit;
 
 import java.util.Map;
 
@@ -22,55 +22,55 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.enjekt.panda.commons.api.BlackVaultDatastore;
+import org.enjekt.panda.commons.api.BlackVaultAPI;
+import org.enjekt.panda.commons.models.BlackVaultDataModel;
 import org.enjekt.panda.commons.models.FamilyId;
 import org.enjekt.panda.commons.models.Pad;
 import org.enjekt.panda.commons.models.Token;
 
-
 /**
- * The Class PadRetrieveHandler.
+ * The Class BlackVaultConnectorImpl.
  */
-public class PadRetrieveHandler{
-
-	public PadRetrieveHandler(){}
+@Singleton
+public class BlackVaultSimulator implements BlackVaultAPI {
 	
-	public PadRetrieveHandler(BlackVaultDatastore datastore){
-		this.datastore=datastore; 
+	@Inject
+	private BlackVaultDevelopmentDatastore dataStore;
+	
+	public BlackVaultSimulator() {}
+	public BlackVaultSimulator(BlackVaultDevelopmentDatastore blackVaultDevelopmentDatastore) {
+		this.dataStore=blackVaultDevelopmentDatastore;
 	}
-	
-	/** The datastore used to store the token and its related pad. */
-	private BlackVaultDatastore datastore;
-	
 
-	/**
-	 * Gets the pad for token to be returned to the white vault
-	 *
-	 * @param token used to identify the pad to be returned.
-	 * @return the pad associated with the token which is returned.
-	 */
+	public BlackVaultDevelopmentDatastore getDataStore() {
+		return dataStore;
+	}
+
+
+	@Override
 	public Pad getPadForToken(Token token) {
-		return datastore.getPadForToken(token);
+		return dataStore.getPadForToken(token);
 	}
 
 
-	/**
-	 * Gets the datastore.
-	 *
-	 * @return the datastore
-	 */
-	public BlackVaultDatastore getDatastore() {
-		return datastore;
+	@Override
+	public void addToken(BlackVaultDataModel bvdm) {
+		dataStore.store(bvdm);
+		
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Map<String,Pad> getPadsForFamilyID(FamilyId familyId) {
+		return dataStore.getPadsForFamilyID(familyId);
 	}
 
 
-	/**
-	 * Sets the datastore.
-	 *
-	 * @param datastore the new datastore
-	 */
-	public void setDatastore(BlackVaultDatastore datastore) {
-		this.datastore = datastore;
+	public void setDataStore(BlackVaultDevelopmentDatastore dataStore) {
+		this.dataStore = dataStore;
 	}
+
+
+
 
 }

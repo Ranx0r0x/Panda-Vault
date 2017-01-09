@@ -25,7 +25,13 @@ import javax.inject.Singleton;
 
 import org.enjekt.panda.commons.api.BlackVaultAPI;
 import org.enjekt.panda.commons.api.WhiteVaultDatastore;
+import org.enjekt.panda.commons.models.BlackVaultDataModel;
+import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.Pad;
+import org.enjekt.panda.commons.models.Pan;
+import org.enjekt.panda.commons.models.Panda;
 import org.enjekt.panda.commons.models.Token;
+import org.enjekt.panda.commons.models.WhiteVaultDataModel;
 import org.enjekt.panda.commons.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,15 +69,16 @@ public class PanAddHandler {
 	 * @param pan the pan
 	 * @return the string
 	 */
-	public String addPan(String pan) {
+	public Token addPan(Pan pan) {
 
 		Token token = fetchExistingToken(pan);
+		System.out.println("FETCHED TOKEN: " + token);
 		if (token == null) {
 			token = createNewToken(pan);
 
 		}
 
-		return token.getToken();
+		return token;
 	}
 
 	/**
@@ -80,22 +87,29 @@ public class PanAddHandler {
 	 * @param pan the pan
 	 * @return the token
 	 */
-	private Token fetchExistingToken(String pan) {
-		String familyId = Utils.getFamilyId(pan);
-		logger.info("Family ID of tokens: " + familyId);
-		Map<String, String> tokensToPads = blackVaultConnector.getPadsForFamilyID(familyId);
-		Map<String, String> tokensToPandas = datastore.getPandasForFamilyID(familyId);
-		logger.info("maps" + tokensToPads + "," + tokensToPandas);
+	private Token fetchExistingToken(Pan pan) {
+		FamilyId familyId = Utils.createFamilyId(pan.getPan());
+		logger.info("Family ID of tokens: " + familyId.getId());
+		Map<String, Pad> tokensToPads = blackVaultConnector.getPadsForFamilyID(familyId);
+		Map<String, Panda> tokensToPandas = datastore.getPandasForFamilyID(familyId);
+		logger.info("tokensToPads: " + tokensToPads);
+		logger.info("tokensToPandas: " + tokensToPandas);
 		if (tokensToPandas == null && tokensToPads == null)
 			return null;
 		for (String token : tokensToPads.keySet()) {
-			String panToCheck = new BigInteger(tokensToPandas.get(token)).subtract(new BigInteger(tokensToPads.get(token))).toString();
-			logger.info(panToCheck);
-			logger.info(pan);
-			if (pan.equals(panToCheck))
-				return new Token().setToken(token).setFamilyId(familyId);
+			System.out.println("TOKEN: " + token);
+			Panda panda = tokensToPandas.get(token);
+			System.out.println("PANDA: " + panda);
+			Pad pad = tokensToPads.get(token);
+			System.out.println("PAD: " + pad);
+			System.out.println(panda +","+pad);
+			String panToCheck = new BigInteger(panda.getPanda()).subtract(new BigInteger(pad.getPad())).toString();
+			System.out.println("PAN FOUND: " + pan.getPan().equals(panToCheck) );
+			if (pan.getPan().equals(panToCheck))
+				return new Token(token);
 		}
-		return null;
+
+		return new Token("Not found");
 	}
 
 	/**
@@ -104,17 +118,16 @@ public class PanAddHandler {
 	 * @param pan the pan
 	 * @return the token
 	 */
-	private Token createNewToken(String pan) {
+	private Token createNewToken(Pan pan) {
 		Token token = tokenGenerator.generateToken(pan);
-		blackVaultConnector.addToken(token);
-		String pad = blackVaultConnector.getPadForToken(token.getToken());
-		String panda = new BigInteger(pan).add(new BigInteger(pad)).toString();
+		Pad pad =  tokenGenerator.generatePad(pan);
+		FamilyId familyId = Utils.createFamilyId(pan);
+		blackVaultConnector.addToken(new BlackVaultDataModel(token,pad, familyId));
+
+		Panda panda = Utils.createPanda(pan,pad);
 		logger.info("Pan and pad for new token: " + pan + "," + pad);
 		
-		if (pad == null || panda == null)
-			token = new Token().setToken("INVALID");
-		else
-			datastore.storePanda(token, panda);
+		datastore.storePanda(new WhiteVaultDataModel(token, panda, familyId));
 		return token;
 	}
 

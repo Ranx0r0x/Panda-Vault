@@ -20,7 +20,6 @@ package org.enjekt.panda.whitevault.internal.routes;
 import javax.inject.Inject;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.enjekt.panda.commons.api.WhiteVaultAPI;
 import org.enjekt.panda.whitevault.internal.beans.PanAddHandler;
 import org.enjekt.panda.whitevault.internal.beans.PanRetrieveHandler;
 
@@ -28,7 +27,7 @@ import org.enjekt.panda.whitevault.internal.beans.PanRetrieveHandler;
 /**
  * Configures all our Camel routes, components, endpoints and beans.
  */
-public class VaultRoutes extends RouteBuilder {
+public class WhiteVaultRoutes extends RouteBuilder {
 
 	/** The Constant GET_PAN. */
 	public static final String GET_PAN = "direct-vm:getPan";
@@ -40,7 +39,7 @@ public class VaultRoutes extends RouteBuilder {
 	/**
 	 * Instantiates a new vault routes.
 	 */
-	public VaultRoutes(){}
+	public WhiteVaultRoutes(){}
 	
 	/** The pan retrieve handler. */
 	@Inject

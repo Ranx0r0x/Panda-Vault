@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
+import org.enjekt.panda.commons.models.Pan;
 import org.enjekt.panda.whitevault.internal.beans.TokenGenerator;
 
 public class TokenFileGenerator {
@@ -47,7 +48,7 @@ public class TokenFileGenerator {
 		while ((line = br.readLine()) != null) {
 			//System.out.println(line);
 			String pan = line.split(",")[1];
-			bw.write(generator.generateToken(pan).getToken()+","+pan);
+			bw.write(generator.generateToken(new Pan(pan)).getToken()+","+pan);
 			bw.newLine();
 		}
 		bw.close();

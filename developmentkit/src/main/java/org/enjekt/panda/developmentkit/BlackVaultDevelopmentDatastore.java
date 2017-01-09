@@ -14,14 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.enjekt.panda.developmentkit.internal;
+package org.enjekt.panda.developmentkit;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.Pad;
 import org.enjekt.panda.commons.models.Token;
+import org.enjekt.panda.commons.api.BlackVaultDatastore;
+import org.enjekt.panda.commons.models.BlackVaultDataModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,14 +34,15 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class BlackVaultDevelopmentDatastore.
  */
-@Singleton
-public class BlackVaultDevelopmentDatastore {
+
+@Named("blackVaultDevelopmentDatastore")
+public class BlackVaultDevelopmentDatastore implements BlackVaultDatastore {
 
 	/** The data. */
-	private HashMap<String,String> data = new HashMap<String,String>();
+	private HashMap<String,Pad> data = new HashMap<String,Pad>();
 	
 	/** The family id to pads. */
-	private HashMap<String,HashMap<String,String>> familyIdToPads = new HashMap<String,HashMap<String,String>>();
+	private HashMap<String,HashMap<String,Pad>> familyIdToPads = new HashMap<String,HashMap<String,Pad>>();
 	
 	/** The logger. */
 	Logger logger = LoggerFactory.getLogger(BlackVaultDevelopmentDatastore.class);
@@ -46,10 +52,18 @@ public class BlackVaultDevelopmentDatastore {
 	 * @param token the token
 	 * @return the pad for token
 	 */
-	public String getPadForToken(String token) {
-		String pad  = data.get(token);
-		logger.info("Returning pad for token from black vault: " + token +"," + pad);
-		return pad;
+	public Pad getPadForToken(Token token) {
+		return data.get(token.getToken());
+	}
+
+	/**
+	 * Gets the pads for family ID.
+	 *
+	 * @param familyId the family id
+	 * @return the pads for family ID
+	 */
+	public HashMap<String, Pad> getPadsForFamilyID(FamilyId familyId) {
+		return familyIdToPads.get(familyId.getId());
 	}
 
 	
@@ -59,26 +73,19 @@ public class BlackVaultDevelopmentDatastore {
 	 * @param token the token
 	 * @param pad the pad
 	 */
-	public void storePadForToken(Token token, String pad) {
-		logger.info("Black vault data store token/pad: "+ token.getToken() +","+pad);
-		data.put(token.getToken(), pad);
-		HashMap<String,String> tokensToPadMap=familyIdToPads.get(token.getFamilyId());
+	@Override
+	public void store(BlackVaultDataModel bvdm) {
+		logger.info("Black vault data store token/pad: "+ bvdm.getToken() +","+bvdm.getPad());
+		data.put(bvdm.getToken().getToken(), bvdm.getPad());
+		HashMap<String,Pad> tokensToPadMap=familyIdToPads.get(bvdm.getFamilyId());
 		if(tokensToPadMap==null){
-			tokensToPadMap= new HashMap<String,String>();
-			familyIdToPads.put(token.getFamilyId(),tokensToPadMap);
+			tokensToPadMap= new HashMap<String,Pad>();
+			familyIdToPads.put(bvdm.getFamilyId().getId(),tokensToPadMap);
 		}
-		tokensToPadMap.put(token.getToken(), pad);
+		tokensToPadMap.put(bvdm.getToken().getToken(), bvdm.getPad());
+		System.out.println(tokensToPadMap);
 	}
 
 
-	/**
-	 * Gets the pads for family ID.
-	 *
-	 * @param familyId the family id
-	 * @return the pads for family ID
-	 */
-	public Map<String, String> getPadsForFamilyID(String familyId) {
-		return familyIdToPads.get(familyId);
-	}
 
 }

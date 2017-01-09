@@ -13,19 +13,22 @@
 
 
 	<reference id="datastore" interface="org.enjekt.panda.commons.api.BlackVaultDatastore" />
-	<bean id="padGenerator" class="org.enjekt.panda.blackvault.internal.beans.PadGenerator" />
 
 	<bean id="tokenAddHandler" class="org.enjekt.panda.blackvault.internal.beans.TokenAddHandler">
 		<property name="datastore" ref="datastore" />
-		<property name="generator" ref="padGenerator" />
 	</bean>
 
 	<bean id="padRetrieveHandler" class="org.enjekt.panda.blackvault.internal.beans.PadRetrieveHandler">
 		<property name="datastore" ref="datastore" />
 	</bean>
+	
+	<bean id="padsForFamilyHandler" class="org.enjekt.panda.blackvault.internal.beans.PadsForFamilyHandler">
+		<property name="datastore" ref="datastore" />
+	</bean>
 
-	<bean id="blackVaultRoutes" class="org.enjekt.panda.blackvault.internal.routes.VaultRoutes">
+	<bean id="blackVaultRoutes" class="org.enjekt.panda.blackvault.internal.routes.BlackVaultRoutes">
 		<property name="tokenAddHandler" ref="tokenAddHandler" />
 		<property name="padRetrieveHandler" ref="padRetrieveHandler" />
+		<property name="padsForFamilyHandler" ref="padsForFamilyHandler" />
 	</bean>
 </blueprint>

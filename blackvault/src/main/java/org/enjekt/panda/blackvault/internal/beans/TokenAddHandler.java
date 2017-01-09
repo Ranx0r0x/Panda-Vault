@@ -21,7 +21,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.enjekt.panda.commons.api.BlackVaultDatastore;
-import org.enjekt.panda.commons.models.Token;
+import org.enjekt.panda.commons.models.BlackVaultDataModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,17 +29,16 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class TokenAddHandler.
  */
-@Singleton
-@Named("tokenAddHandler")
 public class TokenAddHandler  {
 
 	/** The datastore used to store the the tokens and their pads. */
-	@Inject
-	BlackVaultDatastore datastore;
+	private BlackVaultDatastore datastore;
 	
-	/** The pad generator which generates a pad with the same length as the token. */
-	@Inject
-	PadGenerator generator;
+	public TokenAddHandler(){}
+	
+	public TokenAddHandler(BlackVaultDatastore datastore){
+		this.datastore=datastore; 
+	}
 	
 	Logger logger = LoggerFactory.getLogger(TokenAddHandler.class);
 	/**
@@ -54,10 +53,10 @@ public class TokenAddHandler  {
 	 *
 	 * @param token the token
 	 */
-	public void addToken(Token token) {
-		String pad = generator.generatePad(token.getToken());
-		logger.info("Adding this token for generated pad: "+token.getToken()+","+pad);
-		datastore.storePadForToken(token, pad);
+	public void addToken(BlackVaultDataModel bvdm) {
+		
+		logger.info("Adding this token for generated pad: "+bvdm.getToken()+","+bvdm.getPad());
+		datastore.store(bvdm);
 	}
 
 
@@ -80,24 +79,5 @@ public class TokenAddHandler  {
 		this.datastore = datastore;
 	}
 
-
-	/**
-	 * Gets the generator.
-	 *
-	 * @return the generator
-	 */
-	public PadGenerator getGenerator() {
-		return generator;
-	}
-
-
-	/**
-	 * Sets the generator.
-	 *
-	 * @param generator the new generator
-	 */
-	public void setGenerator(PadGenerator generator) {
-		this.generator = generator;
-	}
 
 }

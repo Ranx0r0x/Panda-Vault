@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
 @RunWith(CamelCdiRunner.class)
 public class BlackVaultConnectorTest {
 
-	@Inject
+
 	BlackVaultAPI connector;
 	//@Ignore doesn't appear to work...
 	@Test

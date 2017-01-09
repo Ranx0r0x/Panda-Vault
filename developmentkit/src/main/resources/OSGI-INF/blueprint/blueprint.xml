@@ -11,18 +11,19 @@
 		</cm:default-properties>
 	</cm:property-placeholder>
 
-	<bean id="blackVaultConnector" class="org.enjekt.panda.developmentkit.internal.BlackVaultConnectorImpl">
-	</bean>
-	<bean id="whiteVaultDatastore" class="org.enjekt.panda.developmentkit.internal.WhiteVaultDatastoreImpl">
-		<property name="dataStore" ref="whiteVaultDatastoreInternal" />
-	</bean>
-	<bean id="blackVaultDatastore" class="org.enjekt.panda.developmentkit.internal.BlackVaultDatastoreImpl">
-		<property name="dataStore" ref="blackDatastoreInternal" />
-	</bean>
-	<bean id="blackDatastoreInternal" class="org.enjekt.panda.developmentkit.internal.BlackVaultDevelopmentDatastore">
+
+	<service ref="blackVaultSimulator" interface="org.enjekt.panda.commons.api.BlackVaultAPI" />
+	<service ref="whiteVaultDatastore" interface="org.enjekt.panda.commons.api.WhiteVaultDatastore" />
+	<service ref="blackVaultDatastore" interface="org.enjekt.panda.commons.api.BlackVaultDatastore" />
+
+	<bean id="blackVaultSimulator" class="org.enjekt.panda.developmentkit.BlackVaultSimulator">
+			<property name="dataStore" ref="blackVaultDatastore" />
 	</bean>
 
-	<bean id="whiteVaultDatastoreInternal" class="org.enjekt.panda.developmentkit.internal.WhiteVaultDevelopmentDatastore">
+	<bean id="blackVaultDatastore" class="org.enjekt.panda.developmentkit.BlackVaultDevelopmentDatastore">
+	</bean>
+
+	<bean id="whiteVaultDatastore" class="org.enjekt.panda.developmentkit.WhiteVaultDevelopmentDatastore">
 	</bean>
 
 

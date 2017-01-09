@@ -24,6 +24,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.enjekt.panda.commons.models.Pan;
+import org.enjekt.panda.commons.models.Token;
+
 
 /**
  * The Interface WhiteVaultAPI.
@@ -48,7 +51,7 @@ public interface WhiteVaultAPI {
 	@Path("/whitevault/token/{token}")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-	public String getPan(@WebParam String token);
+	public Pan getPan(@WebParam Token token);
 	
 	/**
 	 * Adds a new PAN to the system for security.  This is a slower operation due to a number of factors.
@@ -79,7 +82,7 @@ public interface WhiteVaultAPI {
 	@Path("/whitevault/pan/{pan}")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-	public String addPan(@WebParam String pan);
+	public Token addPan(@WebParam Pan pan);
 	
 	//TODO delete a PAN based on token - very fast O(1) delete of token/family/panda row and O(1)delete of token/family/pad
 }
