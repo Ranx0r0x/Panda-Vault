@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="48a64d00-9b2d-4024-8abd-8e705094699a" activeEnvironment="Default" name="PandaVault" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="7874ee4e-d4bb-4b87-beb2-cccef637d8c7" wsaVersion="NONE" name="WhiteVaultAPISoapBinding" type="wsdl" bindingName="{http://api.commons.panda.enjekt.org/}WhiteVaultAPISoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/cxf/whitevault/?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/cxf/whitevault/?wsdl"><con:part><con:url>http://localhost:8080/cxf/whitevault/?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="WhiteVaultAPI" targetNamespace="http://api.commons.panda.enjekt.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://api.commons.panda.enjekt.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://api.commons.panda.enjekt.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="pan" type="tns:pan"/>
+      <xs:element name="token" type="tns:token"/>
+      <xs:complexType name="token">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="token" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="pan">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="pan" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="getPan" type="tns:getPan"/>
+      <xs:complexType name="getPan">
+        <xs:sequence>
+          <xs:element form="qualified" minOccurs="0" name="arg0" type="tns:token"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="getPanResponse" type="tns:getPanResponse"/>
+      <xs:complexType name="getPanResponse">
+        <xs:sequence>
+          <xs:element form="qualified" minOccurs="0" name="return" type="tns:pan"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="addPan" type="tns:addPan"/>
+      <xs:complexType name="addPan">
+        <xs:sequence>
+          <xs:element form="qualified" minOccurs="0" name="arg0" type="tns:pan"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="addPanResponse" type="tns:addPanResponse"/>
+      <xs:complexType name="addPanResponse">
+        <xs:sequence>
+          <xs:element form="qualified" minOccurs="0" name="return" type="tns:token"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="addPanResponse">
+    <wsdl:part element="tns:addPanResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPan">
+    <wsdl:part element="tns:getPan" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPanResponse">
+    <wsdl:part element="tns:getPanResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addPan">
+    <wsdl:part element="tns:addPan" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="WhiteVaultAPIPortType">
+    <wsdl:operation name="getPan">
+      <wsdl:input message="tns:getPan" name="getPan"></wsdl:input>
+      <wsdl:output message="tns:getPanResponse" name="getPanResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addPan">
+      <wsdl:input message="tns:addPan" name="addPan"></wsdl:input>
+      <wsdl:output message="tns:addPanResponse" name="addPanResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WhiteVaultAPISoapBinding" type="tns:WhiteVaultAPIPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getPan">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPan">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPanResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addPan">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addPan">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addPanResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WhiteVaultAPI">
+    <wsdl:port binding="tns:WhiteVaultAPISoapBinding" name="WhiteVaultAPIPort">
+      <soap:address location="http://localhost:8080/cxf/whitevault/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/cxf/whitevault/</con:endpoint></con:endpoints><con:operation id="749308ae-1d98-4848-b356-9667e050ad28" isOneWay="false" action="" name="addPan" bindingOperationName="addPan" type="Request-Response" outputName="addPanResponse" inputName="addPan" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="35bec831-8893-4fd0-97e9-52edb6a50a02" name="Add PAN 12345678901234567"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/cxf/whitevault/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.commons.panda.enjekt.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <api:addPan>\r
+         <!--Optional:-->\r
+         <api:arg0>\r
+            <!--Idempotent.  Send Add of same
+            PAN results in same token back:-->\r
+            <pan>12345678901234567</pan>\r
+         </api:arg0>\r
+      </api:addPan>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://api.commons.panda.enjekt.org/WhiteVaultAPIPortType/addPan"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="19445ce2-5e8b-44d9-9387-9d23f6241b02" isOneWay="false" action="" name="getPan" bindingOperationName="getPan" type="Request-Response" outputName="getPanResponse" inputName="getPan" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="22b45833-ece4-428a-9b17-e0a4a8511e90" name="Request PAN Back"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/cxf/whitevault/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.commons.panda.enjekt.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <api:getPan>\r
+         <!--Optional:-->\r
+         <api:arg0>\r
+            <!--Replace this the token 
+            recieved from the Add PAN:-->\r
+            <token>12345679845244567</token>\r
+         </api:arg0>\r
+      </api:getPan>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://api.commons.panda.enjekt.org/WhiteVaultAPIPortType/getPan"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
