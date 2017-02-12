@@ -4,7 +4,7 @@ Secure storage of PANs using tokens and pads.
 Do the following to get the project, build and run.
 
 1. Clone from git https://github.com/Ranx0r0x/Panda-Vault
-2. Either use Maven to run install on the assembly project POM.xml or use the precompiled zip in the "sample zip" folder.
+2. Either use Maven to run install on the parent project POM.xml or use the precompiled zip in the "sample zip" folder.
 --This should result in the projects compiling, running tests and creating the karaf zip
 3. Open the pandaAppliance/pandavault/target folder.
 4. Unzip the pandavault-4.0.6.zip.
