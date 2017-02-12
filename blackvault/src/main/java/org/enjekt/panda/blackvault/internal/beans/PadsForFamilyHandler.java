@@ -24,6 +24,7 @@ import javax.inject.Singleton;
 
 import org.enjekt.panda.commons.api.BlackVaultDatastore;
 import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.FamilyPadCollection;
 import org.enjekt.panda.commons.models.Pad;
 import org.enjekt.panda.commons.models.Token;
 
@@ -48,7 +49,7 @@ public class PadsForFamilyHandler{
 	 * @return the pads associated with the family ID. The Map contains the tokens
 	 * and associated pads to be returned to the white vault
 	 */
-	public Map<String,Pad> getPadsForFamilyID(FamilyId familyId){
+	public FamilyPadCollection getPadsForFamilyID(FamilyId familyId){
 		return datastore.getPadsForFamilyID(familyId);
 	}
 

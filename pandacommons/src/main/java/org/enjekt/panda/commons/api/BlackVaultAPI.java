@@ -27,13 +27,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.FamilyPadCollection;
 import org.enjekt.panda.commons.models.Pad;
 import org.enjekt.panda.commons.models.Token;
 import org.enjekt.panda.commons.models.BlackVaultDataModel;
 
 
 /**
- * The Interface BlackVaultAPI.
+ * The Interface BlackVaultAPI. 
+ * TODO For purists we need to string out the parameters on a single URI but can leave the message
+ * GETs for simplicity.
  */
 public interface BlackVaultAPI {
 
@@ -45,7 +48,7 @@ public interface BlackVaultAPI {
 	 */
 	@WebMethod(operationName = "getPadForToken", action = "")
 	@GET
-	@Path("/blackvault/pad/{token}")
+	@Path("/blackvault/pad/token")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
 	public Pad getPadForToken(@WebParam Token token);
@@ -60,7 +63,7 @@ public interface BlackVaultAPI {
 	 */
 	@WebMethod(operationName = "addToken", action = "")
 	@PUT
-	@Path("/blackvault/token/{token}")
+	@Path("/blackvault/token")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
 	public void addToken(@WebParam BlackVaultDataModel tokeAndPad);
@@ -78,5 +81,5 @@ public interface BlackVaultAPI {
 	@Path("/blackvault/pads/{familyId}")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
-	public Map<String, Pad> getPadsForFamilyID(@WebParam FamilyId familyId);
+	public FamilyPadCollection getPadsForFamilyID(@WebParam FamilyId familyId);
 }

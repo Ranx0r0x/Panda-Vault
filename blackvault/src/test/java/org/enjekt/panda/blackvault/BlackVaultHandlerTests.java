@@ -16,7 +16,9 @@
  */
 package org.enjekt.panda.blackvault;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
@@ -29,14 +31,25 @@ import org.enjekt.panda.commons.models.FamilyId;
 import org.enjekt.panda.commons.models.Pad;
 import org.enjekt.panda.commons.models.Token;
 import org.enjekt.panda.commons.utils.Utils;
-import org.enjekt.panda.developmentkit.BlackVaultDevelopmentDatastore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
+
+@RunWith(MockitoJUnitRunner.class)
 public class BlackVaultHandlerTests {
 
-    private BlackVaultDatastore datastore = new BlackVaultDevelopmentDatastore();
+	@Mock
+    private BlackVaultDatastore datastore;
+    @InjectMocks
     private PadRetrieveHandler retrieveHandler = new PadRetrieveHandler(datastore);
+    @InjectMocks
     private PadsForFamilyHandler padsForFamilyHandler = new PadsForFamilyHandler(datastore);
+    @InjectMocks
     private TokenAddHandler tokenAddHandler = new TokenAddHandler(datastore);
 
 	@Test
@@ -44,25 +57,34 @@ public class BlackVaultHandlerTests {
 		assertNotNull(retrieveHandler);
 		assertNotNull(padsForFamilyHandler);
 		assertNotNull(tokenAddHandler);
-		
 		String pan = "2221555555551234";
-		Pad pad = Utils.createPad(pan);
-		assertNotNull(pad);
+		Pad testPad = createPadResponse(pan);
+		Token token = Utils.createToken(pan);
+		when(datastore.getPadForToken(any(Token.class))).thenReturn(testPad);
+		testPad.setPad("xxxx");
+		Pad retrievedPad = retrieveHandler.getPadForToken(token);
+		
+		assertNotNull(retrievedPad);
+		assertEquals("Test Pad and returned did not match",testPad.getPad(),retrievedPad.getPad());
+		/*	
 		Token token = Utils.createToken(pan);
 		FamilyId familyId = Utils.createFamilyId(pan);
 		BlackVaultDataModel bvdm = new BlackVaultDataModel(token, pad,familyId );
 		tokenAddHandler.addToken(bvdm);
-		Pad retrievedPad = retrieveHandler.getPadForToken(token);
-		
-		assertNotNull(retrievedPad);
-		assertEquals(pad.getPad(),retrievedPad.getPad());
-		
+	
+	
 		Map<String,Pad> pads = padsForFamilyHandler.getPadsForFamilyID(familyId);
 		assertNotNull(pads);
 		
 		Pad tokenPad = pads.get(token.getToken());
 		assertNotNull(tokenPad);
-		assertTrue(tokenPad.equals(pad));
+		assertTrue(tokenPad.equals(pad));*/
+	}
+
+	private Pad createPadResponse(String pan) {
+		Pad pad = Utils.createPad(pan);
+		assertNotNull(pad);
+		return pad;
 	}
 
 }

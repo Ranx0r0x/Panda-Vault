@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.enjekt.panda</groupId>
 	<artifactId>parent</artifactId>
@@ -10,8 +11,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.7</java.version>
-		<camel.version>2.17.3</camel.version>
+		<java.version>1.8</java.version>
+		<camel.version>2.18.1</camel.version>
 		<cdi.version>1.2</cdi.version>
 		<panda.commons.version>0.0.1-SNAPSHOT</panda.commons.version>
 		<developmentkit.version>0.0.1-SNAPSHOT</developmentkit.version>
@@ -97,7 +98,14 @@
 				<artifactId>camel-cdi</artifactId>
 				<version>${camel.version}</version>
 			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>1.10.19</version>
+			</dependency>
 		</dependencies>
+
 	</dependencyManagement>
 
 	<build>
@@ -146,11 +154,11 @@
 				<artifactId>maven-bundle-plugin</artifactId>
 				<version>3.0.1</version>
 				<extensions>true</extensions>
-
+				<!-- Export everything that is NOT in internal -->
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Public-Package>!${project.groupId}.${project.artifactId}.internal,${project.groupId}.${project.artifactId}</Public-Package>
+						<Export-Package>!${project.groupId}.${project.artifactId}.internal*,${project.groupId}.${project.artifactId}*</Export-Package>
 						<Import-Package>*</Import-Package>
 					</instructions>
 				</configuration>
@@ -159,11 +167,9 @@
 	</build>
 	<modules>
 		<module>../pandacommons</module>
-		<module>../developmentkit</module>
 		<module>../blackvault</module>
 		<module>../whitevault</module>
 		<module>../features</module>
-		<module>../developmentAppliance/registry</module>
-		<module>../developmentAppliance/pandavault</module>
+
 	</modules>
 </project>

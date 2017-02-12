@@ -29,11 +29,7 @@
 			<groupId>org.enjekt.panda</groupId>
 			<artifactId>commons</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.enjekt.panda</groupId>
-			<artifactId>developmentkit</artifactId>
-			<scope>test</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.enjekt.panda</groupId>
 			<artifactId>blackvault</artifactId>
