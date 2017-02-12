@@ -157,5 +157,13 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<modules>
+		<module>../pandacommons</module>
+		<module>../developmentkit</module>
+		<module>../blackvault</module>
+		<module>../whitevault</module>
+		<module>../features</module>
+		<module>../developmentAppliance/registry</module>
+		<module>../developmentAppliance/pandavault</module>
+	</modules>
 </project>
