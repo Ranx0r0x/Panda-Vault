@@ -5,7 +5,8 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+//TODO These are passing Strings and not Integers and both the token and the
+//Pad are Integers.
 @XmlRootElement
 public class FamilyPadCollection {
 	

@@ -19,7 +19,8 @@
 
 		<panda.commons.version>0.0.1-SNAPSHOT</panda.commons.version>
 		<development.datastore.version>0.0.1-SNAPSHOT</development.datastore.version>
-		<blackvault.version>0.0.1-SNAPSHOT</blackvault.version>
+		<skip.attachment>false</skip.attachment>
+		
 	</properties>
 
 	<dependencies>
@@ -30,16 +31,16 @@
 			<artifactId>commons</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.enjekt.panda</groupId>
-			<artifactId>blackvault</artifactId>
-			<scope>test</scope>
-		</dependency>
 		<!-- CDI API -->
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-test-cdi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

@@ -27,6 +27,8 @@ import org.enjekt.panda.commons.api.BlackVaultAPI;
 import org.enjekt.panda.commons.api.WhiteVaultDatastore;
 import org.enjekt.panda.commons.models.BlackVaultDataModel;
 import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.FamilyPadCollection;
+import org.enjekt.panda.commons.models.FamilyPandaCollection;
 import org.enjekt.panda.commons.models.Pad;
 import org.enjekt.panda.commons.models.Pan;
 import org.enjekt.panda.commons.models.Panda;
@@ -82,7 +84,8 @@ public class PanAddHandler {
 	}
 
 	/**
-	 * Fetch existing token.
+	 * Fetch existing token. 
+	 * TODO This is pretty sloppy first shot at this and needs cleaning up.
 	 *
 	 * @param pan the pan
 	 * @return the token
@@ -90,20 +93,20 @@ public class PanAddHandler {
 	private Token fetchExistingToken(Pan pan) {
 		FamilyId familyId = Utils.createFamilyId(pan.getPan());
 		logger.info("Family ID of tokens: " + familyId.getId());
-		Map<String, Pad> tokensToPads = blackVaultConnector.getPadsForFamilyID(familyId);
-		Map<String, Panda> tokensToPandas = datastore.getPandasForFamilyID(familyId);
+		FamilyPadCollection tokensToPads = blackVaultConnector.getPadsForFamilyID(familyId);
+		FamilyPandaCollection tokensToPandas = datastore.getPandasForFamilyID(familyId);
 		logger.info("tokensToPads: " + tokensToPads);
 		logger.info("tokensToPandas: " + tokensToPandas);
 		if (tokensToPandas == null && tokensToPads == null)
 			return null;
-		for (String token : tokensToPads.keySet()) {
+		for (String token : tokensToPads.getTokenToPadMap().keySet()) {
 			System.out.println("TOKEN: " + token);
-			Panda panda = tokensToPandas.get(token);
+			String panda = tokensToPandas.getTokenToPanda().get(token);
 			System.out.println("PANDA: " + panda);
-			Pad pad = tokensToPads.get(token);
+			String pad = tokensToPads.getTokenToPadMap().get(token);
 			System.out.println("PAD: " + pad);
 			System.out.println(panda +","+pad);
-			String panToCheck = new BigInteger(panda.getPanda()).subtract(new BigInteger(pad.getPad())).toString();
+			String panToCheck = new BigInteger(panda).subtract(new BigInteger(pad)).toString();
 			System.out.println("PAN FOUND: " + pan.getPan().equals(panToCheck) );
 			if (pan.getPan().equals(panToCheck))
 				return new Token(token);

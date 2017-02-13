@@ -19,6 +19,7 @@
 		<blackvault.version>0.0.1-SNAPSHOT</blackvault.version>
 		<panda.commons.version>0.0.1-SNAPSHOT</panda.commons.version>
 		<pax.cdi.version>1.0.0.RC1</pax.cdi.version>
+		<skip.attachment>true</skip.attachment>
 	</properties>
 
 	<dependencyManagement>
@@ -129,7 +130,31 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<skipAttach>${skip.attachment}</skipAttach>
+							<artifacts>
+								<artifact>
+									<file>${project.build.outputDirectory}/configuration.cfg</file>
+									<type>cfg</type>
+									<classifier>configuration</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
 
+					</execution>
+				</executions>
+			</plugin>
 			<!-- allows the routes to be run via 'mvn camel:run' -->
 			<plugin>
 				<groupId>org.apache.camel</groupId>

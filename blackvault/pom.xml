@@ -17,8 +17,7 @@
 	<url>http://www.enjekt.org</url>
 
 	<properties>
-	
-
+		<skip.attachment>false</skip.attachment>
 	</properties>
 
 	<dependencies>

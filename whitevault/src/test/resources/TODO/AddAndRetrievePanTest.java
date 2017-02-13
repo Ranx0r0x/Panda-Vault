@@ -21,21 +21,24 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.apache.camel.test.cdi.CamelCdiRunner;
+import org.enjekt.panda.commons.api.BlackVaultDatastore;
 import org.enjekt.panda.commons.models.Pan;
 import org.enjekt.panda.commons.models.Token;
 import org.enjekt.panda.whitevault.internal.beans.PanAddHandler;
 import org.enjekt.panda.whitevault.internal.beans.PanRetrieveHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
-@RunWith(CamelCdiRunner.class)
 public class AddAndRetrievePanTest {
 
-	@Inject
-	private PanAddHandler panAddHandler;
-	
-	@Inject
-	private PanRetrieveHandler panRetrieveHandler;
+	@Mock
+    private BlackVaultDatastore datastore;
+    @InjectMocks
+	private PanAddHandler panAddHandler = new PanAddHandler();
+    @InjectMocks
+	private PanRetrieveHandler panRetrieveHandler = new PanRetrieveHandler();
 
 	@Test
 	public void testNewTokenAndRetrieveForExistingToken() {

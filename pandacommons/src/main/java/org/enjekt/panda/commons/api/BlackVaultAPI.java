@@ -66,7 +66,7 @@ public interface BlackVaultAPI {
 	@Path("/blackvault/token")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_JSON})
-	public void addToken(@WebParam BlackVaultDataModel tokeAndPad);
+	public void addToken(@WebParam BlackVaultDataModel tokenAndPad);
 
 	/**
 	 * Gets the pads for family ID. This may or may not exist in future versions.  The family ID

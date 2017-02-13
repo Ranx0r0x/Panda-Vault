@@ -16,9 +16,8 @@
  */
 package org.enjekt.panda.commons.api;
 
-import java.util.Map;
-
 import org.enjekt.panda.commons.models.FamilyId;
+import org.enjekt.panda.commons.models.FamilyPandaCollection;
 import org.enjekt.panda.commons.models.Panda;
 import org.enjekt.panda.commons.models.Token;
 import org.enjekt.panda.commons.models.WhiteVaultDataModel;
@@ -67,7 +66,7 @@ public interface WhiteVaultDatastore {
 	 * @param familyId the family id
 	 * @return the pandas for family ID
 	 */
-	public Map<String,Panda> getPandasForFamilyID(FamilyId familyId);
+	public FamilyPandaCollection getPandasForFamilyID(FamilyId familyId);
 
 
 	
